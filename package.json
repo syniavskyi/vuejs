@@ -5,10 +5,14 @@
     "author": "Pavlo Syniavskyi",
     "license": "MIT",
     "private": true,
+    "engines": {
+        "node": "9.7.0",
+        "npm": "5.6.0"
+    },
     "scripts": {
+        "start": "node server.js",
         "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
         "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-        "start": "node server.js",
         "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
     },
     "dependencies": {
