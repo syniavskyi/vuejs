@@ -1,60 +1,49 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div class="container">
+    <app-header :quoteCount="quotes.length" :maxQuotes="maxQuotes"></app-header>
+    <app-new-quote @quoteAddedEvent="newQuote"></app-new-quote>
+    <app-quote-grid :quotes="quotes" @deleteQuote="quoteDeleted"></app-quote-grid>
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <div class="alert alert-info">Info: Click on a qoute to delete it</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+  import QuoteGrid from './components/QuoteGrid.vue';
+  import NewQuote from './components/NewQuote.vue';
+  import Header from './components/Header.vue';    
+
+  export default {
+      data: function(){
+        return {
+          quotes: [
+            "Just a quote"
+          ],
+          maxQuotes: 10
+        }
+      },
+      methods: {
+          newQuote(quote) {
+            if(this.quotes.length >= this.maxQuotes){
+                alert("Please delete some quotes");
+                return;
+              }
+             this.quotes.push(quote); 
+          },
+          quoteDeleted(index){
+              this.quotes.splice(index, 1);
+          }
+      },
+      components: {
+          appQuoteGrid: QuoteGrid,
+          appNewQuote: NewQuote,
+          appHeader: Header
+      }
   }
-}
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
